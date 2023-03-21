@@ -43,7 +43,7 @@
         <input type="text" id="beca" name="beca" th:field="*{beca}">
 
         <label for="idFacultad">Facultad: </label>
-        <select name="idFacultad" id="idFacultad" required> 
+        <select name="facultad" id="idFacultad" required> 
             <option></option>
             <option th:each="facultad : ${facultades}" th:value="${facultad.id}" 
                         th:text="${facultad.nombre}"></option>
