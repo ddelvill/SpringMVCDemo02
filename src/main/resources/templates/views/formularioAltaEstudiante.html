@@ -7,9 +7,12 @@
     <title>Formulario Alta Estudiante</title>
 </head>
 <body>
-    <h1> Formulario de Alta de Estudiantes</h1>
+    <h1> Formulario de Alta/Modificación de Estudiantes</h1>
 
-    <form th:object="${estudiante}" th:action="@{/altaEstudiante}" method="post">
+    <form th:object="${estudiante}" th:action="@{/altaModificacionEstudiante}" method="post">
+
+        <!-- Guardar en un input oculto el id del estudiante -->
+        <input type="hidden" name="id" th:value="${estudiante.id}">
 
         <label for="nombre">Nombre: </label>
         <input type="text" name="nombre" id="nombre" th:field="*{nombre}" required> 
@@ -18,13 +21,13 @@
         <input type="text" name="primerApellido" id="primerApellido" th:field="*{primerApellido}" required> 
 
         <label for="segundoApellido">Segundo Apellido: </label>
-        <input type="text" name="segundoApellido" id="segundoApellido" th:field="*{segundoApellido}"> 
+        <input type="text" name="segundoApellido" id="segundoApellido" th:field="*{segundoApellido}" required> 
 
         <label for="fechaAlta"> Fecha de Alta: </label>
-        <input type="date" name="fechaAlta" id="fechaAlta" th:field="*{fechaAlta}" required>
+        <input type="date" name="fechaAlta" id="fechaAlta" th:field="*{fechaAlta}" th:value="${estudiante.fechaAlta}" required>
 
         <label for="fechaNacimiento"> Fecha de Nacimiento: </label>
-        <input type="date" name="fechaNacimiento" id="fechaNacimiento" th:field="*{fechaNacimiento}">
+        <input type="date" name="fechaNacimiento" id="fechaNacimiento" th:field="*{fechaNacimiento}" th:value="${estudiante.fechaNacimiento}" required>
 
 
         <fieldset>
@@ -46,11 +49,23 @@
         <select name="facultad" id="idFacultad" required> 
             <option></option>
             <option th:each="facultad : ${facultades}" th:value="${facultad.id}" 
-                        th:text="${facultad.nombre}"></option>
+                        th:text="${facultad.nombre}" 
+                        th:selected="${estudiante.facultad != null and facultad.id == estudiante.facultad.id
+                        
+                        }"
+                        ></option>
         </select>
 
         <label for="numerosTelefonos">Telefono(s): </label>
-        <input type="text" name="numerosTelefonos" id="numerosTelefonos" placeholder="Uno o varios separados por punto y coma.">
+        <input type="text" name="numerosTelefonos" id="numerosTelefonos" 
+                                placeholder="Uno o varios separados por punto y coma."
+                                th:value="${telefonos}"
+                                >
+<!-- 
+                                <option th:each=" fac : ${facultades}" th:value="${fac.id}" 
+                        th:text="${fac.nombre}" 
+                        th:selected="${fac.id} != 0 ? false :
+                            (${fac.id == estudiante.facultad.id})"></option> -->
 
         <input type="submit" value="Alta">
 
