@@ -131,6 +131,7 @@ public class MainController {
        * Muestra el formulario para actualizar un estudiante
        */
       @GetMapping("/frmActualizar/{id}")
+
       public String frmActualizarEstudiante (@PathVariable(name = "id") int idEstudiante,
                                       Model model) {
 
@@ -164,4 +165,46 @@ public class MainController {
 
        return "redirect:/listar";
       }
-}
+
+      // @GetMapping("/detalles/{id}")
+      // public String detallesEstudiante (@PathVariable(name = "id") int idEstudiante,
+      //                                 Model model) {
+
+      // telefonoService.findbyEstudiante(estudianteService.findById(idEstudiante));
+        @GetMapping("/detallesEstudiante/{id}")
+
+        public ModelAndView detallesEstudiante(@PathVariable(name = "id") int idEstudiante) {
+
+          Estudiante estudiante = estudianteService.findById(idEstudiante);
+
+          List<Telefono> listaTelefonos = telefonoService.findbyEstudiante(estudiante);
+
+          List<String> telefonos = listaTelefonos.stream().map(t -> t.getNumero()).toList();
+
+          ModelAndView mav = new ModelAndView("views/detallesEstudiante");
+
+          mav.addObject("estudiante", estudiante);
+          mav.addObject("telefonos", telefonos);
+
+
+
+         return mav;
+
+        }
+                      
+     
+
+      // public ModelAndView listar() {
+
+      //   List<Estudiante> estudiantes = estudianteService.findAll();
+        
+      //   ModelAndView mav = new ModelAndView("views/listarEstudiantes");
+      //   mav.addObject("estudiantes", estudiantes);
+      //   return mav;
+
+                                    
+
+      }
+
+
+

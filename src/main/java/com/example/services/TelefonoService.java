@@ -10,6 +10,7 @@ public interface TelefonoService {
     public Telefono findById(int idTelefono);
     public void save(Telefono telefono);
     public void deleteById(int idTelefono);
-    void deleteByEstudiante(Estudiante estudiante);
+    public void deleteByEstudiante(Estudiante estudiante);
+    public List<Telefono> findbyEstudiante(Estudiante estudiante);
 }
 

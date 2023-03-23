@@ -18,5 +18,7 @@ public interface TelefonoDao extends JpaRepository<Telefono, Integer>{
 
     // List<Telefono> findByEstudiante(Estudiante estudiante);
 
-    
+    List<Telefono> findByEstudiante(Estudiante estudiante);
+
+
 }

@@ -43,5 +43,14 @@ public class TelefonoServiceImpl implements TelefonoService {
         // TODO Auto-generated method stub
        telefonoDao.deleteByEstudiante(estudiante);
     }
+
+    @Override
+    public List<Telefono> findbyEstudiante(Estudiante estudiante) {
+        // TODO Auto-generated method stub
+
+        
+
+        return telefonoDao.findByEstudiante(estudiante);
+    }
     
 }
