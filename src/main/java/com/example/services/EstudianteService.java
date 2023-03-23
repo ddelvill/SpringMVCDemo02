@@ -10,6 +10,7 @@ public interface EstudianteService {
     public Estudiante findById(int idEstudiante);
     public void save(Estudiante estudiante);
     public void deleteById(int idEstudiante);
+    public void delete(Estudiante estudiante);
 
     /**
      * No es necesario metodo update ya que lo realiza el save,

@@ -83,6 +83,14 @@ public class MainController {
           
         LOG.info("Telefonos recibidos: " + telefonosRecibidos);   
 
+        estudianteService.save(estudiante);
+
+        // if(estudiante.getId() != 0) {
+        //   // Es una modificación y borramos el estudiante y los teléfonos correspondientes. 
+        //   estudianteService.deleteById(estudiante.getId());
+        // }
+
+
         
         List<String> listadoNumerosTelefonos = null;
 
@@ -97,9 +105,10 @@ public class MainController {
 
 
 
-        estudianteService.save(estudiante);
+        // Borrar todos los teléfonos que tenga el estudiante si hay que insertar nuevos. 
 
         if(listadoNumerosTelefonos != null) {
+          telefonoService.deleteByEstudiante(estudiante);
           listadoNumerosTelefonos.stream().forEach(n -> {
             Telefono  telefonoObject = Telefono
               .builder()
@@ -113,6 +122,8 @@ public class MainController {
         
         return "redirect:/listar";
 
+        // "views/formularioAltaEstudiante"
+        // "redirect:/listar"
       }
 
 
@@ -142,4 +153,15 @@ public class MainController {
 
       return "views/formularioAltaEstudiante";
        }
+
+
+
+      @GetMapping("/borrar/{id}")
+
+       public String borrarEstudiante (@PathVariable(name="id") int idEstudiante) {
+
+        estudianteService.delete(estudianteService.findById(idEstudiante));
+
+       return "redirect:/listar";
+      }
 }
