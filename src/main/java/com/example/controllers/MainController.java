@@ -1,8 +1,10 @@
 package com.example.controllers;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.entities.Estudiante;
@@ -79,9 +82,41 @@ public class MainController {
 
       @PostMapping("/altaModificacionEstudiante")
       public String altaEstudiante(@ModelAttribute Estudiante estudiante,
-          @RequestParam(name="numerosTelefonos") String telefonosRecibidos) {
+          @RequestParam(name="numerosTelefonos") String telefonosRecibidos,
+          @RequestParam(name = "imagen") MultipartFile imagen) {
           
         LOG.info("Telefonos recibidos: " + telefonosRecibidos);   
+
+        if (!imagen.isEmpty()) {
+          try {
+            // Necesitamos la ruta relativa de donde voy a almacenar el archivo de imagen.
+
+            Path rutaRelativa = Paths.get("src/main/resources/static/images");
+
+            // Necesitamos también la ruta absoluta. 
+
+            String rutaAbsoluta = rutaRelativa.toFile().getAbsolutePath();
+
+            byte[] imagenEnBytes = imagen.getBytes();
+
+            //ruta completa: ruta absoluta más el nombre del archivo.
+
+            Path ruthaCompleta = Paths.get(rutaAbsoluta + "/" + imagen.getOriginalFilename());
+
+
+            // Guardamos la imagen en el file system. 
+
+            Files.write(ruthaCompleta, imagenEnBytes);
+
+            // Asociar la imagen con el objeto estudiante que se va a guardar. 
+
+            estudiante.setFoto(imagen.getOriginalFilename());
+
+
+          } catch (Exception e) {
+            // TODO: handle exception
+          }
+        }
 
         estudianteService.save(estudiante);
 
@@ -89,6 +124,8 @@ public class MainController {
         //   // Es una modificación y borramos el estudiante y los teléfonos correspondientes. 
         //   estudianteService.deleteById(estudiante.getId());
         // }
+
+
 
 
         
@@ -102,10 +139,6 @@ public class MainController {
 
         }
 
-
-
-
-        // Borrar todos los teléfonos que tenga el estudiante si hay que insertar nuevos. 
 
         if(listadoNumerosTelefonos != null) {
           telefonoService.deleteByEstudiante(estudiante);

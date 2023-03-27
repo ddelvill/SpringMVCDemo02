@@ -9,7 +9,8 @@
 <body>
     <h1> Formulario de Alta/Modificación de Estudiantes</h1>
 
-    <form th:object="${estudiante}" th:action="@{/altaModificacionEstudiante}" method="post">
+    <form th:object="${estudiante}" th:action="@{/altaModificacionEstudiante}" method="post"
+            enctype="multipart/form-data">
 
         <!-- Guardar en un input oculto el id del estudiante -->
         <input type="hidden" name="id" th:value="${estudiante.id}">
@@ -67,6 +68,9 @@
                         th:selected="${fac.id} != 0 ? false :
                             (${fac.id == estudiante.facultad.id})"></option> -->
 
+        <label for="imagen">Foto: </label>
+        <input type="file" id="imagen" name="imagen">
+        
         <input type="submit" value="Alta">
 
     </form>
