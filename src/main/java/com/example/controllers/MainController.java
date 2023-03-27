@@ -166,11 +166,7 @@ public class MainController {
        return "redirect:/listar";
       }
 
-      // @GetMapping("/detalles/{id}")
-      // public String detallesEstudiante (@PathVariable(name = "id") int idEstudiante,
-      //                                 Model model) {
 
-      // telefonoService.findbyEstudiante(estudianteService.findById(idEstudiante));
         @GetMapping("/detallesEstudiante/{id}")
 
         public ModelAndView detallesEstudiante(@PathVariable(name = "id") int idEstudiante) {
@@ -194,13 +190,6 @@ public class MainController {
                       
      
 
-      // public ModelAndView listar() {
-
-      //   List<Estudiante> estudiantes = estudianteService.findAll();
-        
-      //   ModelAndView mav = new ModelAndView("views/listarEstudiantes");
-      //   mav.addObject("estudiantes", estudiantes);
-      //   return mav;
 
                                     
 
